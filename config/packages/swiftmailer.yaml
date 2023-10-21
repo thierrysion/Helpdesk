@@ -1,0 +1,11 @@
+swiftmailer:
+    default_mailer: mibukyos
+    mailers:
+        mibukyos:
+            transport: gmail
+            username: mibukyos@gmail.com
+            password: dGhpZXJyeXNpb24=
+            # sender_address: ~
+            # delivery_addresses: ~
+            disable_delivery: false
+

@@ -1,0 +1,98 @@
+#uvdesk:
+#    resource: .
+#    type: uvdesk
+#uvdesk_extensions:
+#    resource: .
+#    type: uvdesk_extensions
+
+uvdesk_core_bundle_member_routing_resources:
+    resource: "routes/cf-private.yaml"
+    prefix:   /{_locale}/%uvdesk_site_path.member_prefix%/
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
+uvdesk_core_bundle_public_routing_resources:
+    resource: "routes/cf-public.yaml"
+    prefix:   /
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
+uvdesk_support_center_bundle_member_routing_resources:
+    resource: "routes/scb-private-agents.yaml"
+    prefix:   /{_locale}/%uvdesk_site_path.member_prefix%/
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
+uvdesk_support_center_bundle_customer_routing_resources:
+    resource: "routes/scb-private-customers.yaml"
+    prefix:   /{_locale}/%uvdesk_site_path.knowledgebase_customer_prefix%/
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
+uvdesk_support_center_bundle_public_routing_resources:
+    resource: "routes/scb-public.yaml"
+    prefix:   /{_locale}/
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
+uvdesk_extensions_private_routing_resources:
+    resource: "routes/exf-private.yaml"
+    prefix:   /{_locale}/%uvdesk_site_path.member_prefix%/
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
+uvdesk_extensions_public_routing_resources:
+    resource: "routes/exf-public.yaml"
+    prefix:   /
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
+helpdesk_automations_bundle_member_routing_resources:
+    resource: "routes/aub-private.yaml"
+    prefix:   /{_locale}/%uvdesk_site_path.member_prefix%/
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
+uvdesk_api_bundle_private_routing_resources:
+    resource: "routes/api-private.yaml"
+    prefix:   /{_locale}/member/
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
+uvdesk_api_bundle_api_routing_resources:
+    resource: "routes/uv-api.yaml"
+    prefix:   /api/
+
+uvdesk_mailbox_module_member_routing_resources:
+    resource: "routes/ml-private.yaml"
+    prefix:   /{_locale}/%uvdesk_site_path.member_prefix%/
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
+uvdesk_mailbox_module_public_routing_resources:
+    resource: "routes/ml-public.yaml"
+    prefix:   /
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
