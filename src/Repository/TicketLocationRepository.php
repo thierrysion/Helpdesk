@@ -114,11 +114,12 @@ class TicketLocationRepository extends ServiceEntityRepository
     }
     */
 
-    public function prepareBaseTicketQuery(User $user, array $supportGroupIds = [], array $supportTeamIds = [], array $params = [], bool $filterByStatus = true)
+    public function prepareBaseTicketQuery(User $user, $communesCouvertes, array $supportGroupIds = [], array $supportTeamIds = [], array $params = [], bool $filterByStatus = true)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
             ->select("
-                DISTINCT ticketlocation,
+                ticketlocation,
+                ticket,
                 supportGroup.name as groupName,
                 supportTeam.name as teamName,
                 priority,
@@ -147,7 +148,13 @@ class TicketLocationRepository extends ServiceEntityRepository
             ->leftJoin('customer.userInstance', 'customerInstance')
             ->where('customerInstance.supportRole = 4')
             ->andWhere("agent.id IS NULL OR agentInstance.supportRole != 4")
-            ->andWhere('ticket.isTrashed = :isTrashed')->setParameter('isTrashed', isset($params['trashed']) ? true : false);
+            ->andWhere('ticket.isTrashed = :isTrashed')->setParameter('isTrashed', isset($params['trashed']) ? true : false)
+            ->groupBy('ticket');
+
+        //
+        if($communesCouvertes != null) {
+            $queryBuilder->andWhere('ticketlocation.location in (:locations) ')->setparameter('locations',$communesCouvertes);
+        }
 
         if (!isset($params['sort'])) {
             $queryBuilder->orderBy('ticket.updatedAt', Criteria::DESC);

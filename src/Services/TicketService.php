@@ -576,16 +576,16 @@ class TicketService
         $supportTeamReference  = $this->entityManager->getRepository(User::class)->getUserSupportTeamReferences($activeUser);
 
         // les communes couvertes par l'agent
-        /*$zoneAgent = $this->getUserLocation($activeUser);
+        $zoneAgent = $this->getUserLocation($activeUser);
         $communesCouvertes = null;
         if($zoneAgent != null) {
             $communesCouvertes = $this->getCommunesOf($zoneAgent);
-        }*/
+        }
 
 
         // Get base query
         //$baseQuery = $ticketRepository->prepareBaseTicketQuery($activeUser, $supportGroupReference, $supportTeamReference, $params);
-        $baseQuery = $ticketLocationRepository->prepareBaseTicketQuery($activeUser, $supportGroupReference, $supportTeamReference, $params);
+        $baseQuery = $ticketLocationRepository->prepareBaseTicketQuery($activeUser, $communesCouvertes, $supportGroupReference, $supportTeamReference, $params);
         $ticketTabs = $ticketRepository->getTicketTabDetails($activeUser, $supportGroupReference, $supportTeamReference, $params);
 
         // Apply Pagination
@@ -622,14 +622,14 @@ class TicketService
             ->andWhere('thread.threadType = :threadType')->setParameter('threadType', 'reply');
 
         foreach ($pagination->getItems() as $ticketDetails) {
-            $ticket = array_shift($ticketDetails);
-
+            $ticket = array_shift($ticketDetails)['ticket'];
+            //$ticket = $ticketDetails;
             $ticketThreadCountQuery = clone $ticketThreadCountQueryTemplate;
             $ticketThreadCountQuery->setParameter('ticketId', $ticket['id']);
 
             $totalTicketReplies = (int) $ticketThreadCountQuery->getQuery()->getSingleScalarResult();
             $ticketHasAttachments = false;
-            $dbTime = $ticket['createdAt'];
+            $dbTime = $ticket['createdAt'];//$ticket['createdAt'];
 
             $formattedTime= $this->fomatTimeByPreference($dbTime,$timeZone,$timeFormat,$agentTimeZone,$agentTimeFormat);
 
