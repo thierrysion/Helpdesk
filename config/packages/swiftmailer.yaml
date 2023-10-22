@@ -9,3 +9,5 @@ swiftmailer:
             # delivery_addresses: ~
             disable_delivery: false
 
+#    url: '%env(MAILER_URL)%'
+#    spool: { type: 'memory' }
