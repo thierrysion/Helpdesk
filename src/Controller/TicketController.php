@@ -192,13 +192,21 @@ class TicketController extends AbstractController
                             $data['from'] = $customerEmail;
                             $data['role'] = 4;
                             $data['customer'] = $this->userService->createUserInstance($customerEmail, $data['fullname'], $supportRole, $extras = ["active" => true]);
+                            // ici nous devons prendre les données de userinfos
+                            $userInfos = new UserInfos();
+                            $userInfos->setSex($request->request->get('sex'));
+                            $userInfos->setStatus($form['statusUser']->getData()); //$request->request->get('statusUser')
+                            $userInfos->setTelephone($request->request->get('telephone'));
+                            $userInfos->setFonction($request->request->get('fonction'));
+                            $userInfos->setProgramme($form['userProgram']->getData()); //$request->request->get('userProgram')
+                            $userInfos->setCommune($form['commune']->getData()); // $request->request->get('commune')
                         } else {
                             $userDetail = $em->getRepository(CoreEntites\User::class)->find($data['customer']->getId());
                             $data['email'] = $customerEmail = $data['customer']->getEmail();
                             $nameCollection = [$userDetail->getFirstName(), $userDetail->getLastName()];
                             $name = implode(' ', $nameCollection);
                             $data['fullname'] = $name;
-                            $userInfos = $em->getRepository(UserInfos::class)->findOneBy(['user' => $userDetails]);
+                            $userInfos = $em->getRepository(UserInfos::class)->findOneBy(['user' => $userDetail]);
                         }
                         $data['user'] = $data['customer'];
                         $data['subject'] = $request->request->get('subject');
@@ -226,21 +234,16 @@ class TicketController extends AbstractController
                             $ticketLocation->setTicket($ticket);
                             // on met à jour la localisation du ticket et de l'utilisateur
                             $ticketLocation->setLocation($form['commune']->getData()); // $request->request->get('commune')
-                            // ici nous devons prendre les données de userinfos
-                            $userInfos = new UserInfos();
-                            $userInfos->setSex($request->request->get('sex'));
-                            $userInfos->setStatus($form['statusUser']->getData()); //$request->request->get('statusUser')
-                            $userInfos->setTelephone($request->request->get('telephone'));
-                            $userInfos->setFonction($request->request->get('fonction'));
-                            $userInfos->setProgramme($form['userProgram']->getData()); //$request->request->get('userProgram')
-                            $userInfos->setCommune($form['commune']->getData()); // $request->request->get('commune')
-                            if($userInfos->getUser() == null) {
+
+                            if(!is_object($data['customer'] = $this->container->get('security.token_storage')->getToken()->getUser()) == "anon.") {
+                                //if($userInfos->getUser() == null) {
                                 $userInfos->setUser($ticket->getCustomer());
+                                $em->persist($userInfos);
                             }
                             //persister les données
                             //$em = $this->getDoctrine()->getManager();
                             $em->persist($ticketLocation);
-                            $em->persist($userInfos);
+
                             $em->flush();
                             $this->addFlash('success', $this->translator->trans('Success ! Ticket has been created successfully.'));
                         } else {

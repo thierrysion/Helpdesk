@@ -104,7 +104,7 @@
 								<option value="">{{ 'Select region'|trans }}</option>
 
 								{% for region in fetchdata_service.getRegions() %}
-									<option value="{{ region.id }}">{{ region.libelle }}</option>
+									<option value="{{ region.id }}">{{ region.name }}</option>
 								{% endfor %}
 							</select>
 						</div>

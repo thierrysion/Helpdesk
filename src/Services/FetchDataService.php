@@ -6,6 +6,8 @@ use App\Entity\StatusUser;
 use App\Entity\Location;
 use App\Entity\TypeLocation;
 use App\Entity\Programme;
+use App\Entity\UserInfos;
+//use Webkul\UVDesk\CoreFrameworkBundle\Entity\User;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +27,7 @@ class FetchDataService
     public function __construct(
         //ContainerInterface $container,
         RequestStack $requestStack,
-        EntityManagerInterface $entityManager,
+        EntityManagerInterface $entityManager
         /*FileUploadService $fileUploadService,
         UserService $userService*/)
     {
@@ -68,7 +70,7 @@ class FetchDataService
             return $regions;
 
 		$qb = $this->entityManager->createQueryBuilder();
-        $qb->select('l.id','l.libelle As libelle')->from(Location::class, 'l')
+        $qb->select('l.id','l.libelle As name')->from(Location::class, 'l')
                 ->innerJoin('l.typeLocation', 'tl')
                 ->andWhere('tl.libelle = :typeLocation')
                 ->orderBy('l.libelle', 'ASC')
@@ -80,7 +82,7 @@ class FetchDataService
     public function getSubdivisionsOf($division, $parent) {
 
 		$qb = $this->entityManager->createQueryBuilder();
-        $qb->select('l.id','l.libelle As libelle')->from(Location::class, 'l')
+        $qb->select('l.id','l.libelle As name')->from(Location::class, 'l')
                 ->innerJoin('l.typeLocation', 'tl')
                 ->andWhere('tl.libelle = :typeLocation')
                 ->andWhere('l.parent = :parent')
@@ -97,6 +99,49 @@ class FetchDataService
                 ->orderBy('tl.libelle', 'ASC');
 
         return $qb->getQuery()->getArrayResult();
+    }
+
+    public function getUserLocation($user) {
+
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('ui')->from(UserInfos::class, 'ui')
+            ->addSelect('c')
+            ->innerJoin('ui.commune', 'c')
+            ->andWhere('ui.user = :user')
+            ->setParameter('user', $user);
+        $userInfo = $qb->getQuery()->getOneOrNullResult();
+        return $userInfo != null ? $userInfo->getCommune() : null;
+
+    }
+
+    public function getTicketLocation($ticket) {
+
+        $qb = $this->entityManager->getRepository->createQueryBuilder();
+        $qb->select('tl')->from(TicketLocation::class, 'tl')
+            ->addSelect('l')
+            ->innerJoin('tl.location', 'l')
+            ->andWhere('tl.ticket = :ticket')
+            ->setParameter('user', $ticket);
+        $ticketLocation = $qb->getQuery()->getOneOrNullResult();
+        return $ticketLocation != null ? $ticketLocation->getLocation() : null;
+
+    }
+
+    public function getCommunesOf($location) {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('l.id')->from(Location::class, 'l');
+        switch($location->getTypeLocation()->getLibelle()) {
+            case TypeLocation::COMMUNE :
+                return [$location->getId()];
+            case TypeLocation::DEPARTEMENT :
+                $qb->addWhere('l.parent = :parent')->setParameter('parent', $location);
+                break;
+            case TypeLocation::REGION :
+                $qb->innerJoin('l.parent', 'd')
+                    ->andWhere('d.parent = :parent')->setParameter('parent', $location);
+                break;
+        }
+        return $qb->getQuery()->getSingleColumnResult(); //->getArrayResult();
     }
 
 }

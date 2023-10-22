@@ -15,6 +15,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TypeLocation
 {
+    const REGION = "Region";
+    const DEPARTEMENT = "Departement";
+    const COMMUNE = "Commune";
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

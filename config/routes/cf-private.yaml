@@ -163,7 +163,7 @@ helpdesk_member_ticket_collection:
 
 helpdesk_member_ticket_collection_xhr:
     path:     /tickets/xhr
-    controller: Webkul\UVDesk\CoreFrameworkBundle\Controller\TicketXHR::listTicketCollectionXHR
+    controller: App\Controller\CoreTicketXHRController::listTicketCollectionXHR
 
 helpdesk_member_ticket_collection_mass_action_xhr:
     path:     /tickets/mass-xhr

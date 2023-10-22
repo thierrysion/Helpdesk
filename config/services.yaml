@@ -34,5 +34,8 @@ services:
     fetchdata.service:
         alias: App\Services\FetchDataService
 
-    #myticket.service:
-    #    alias: App\Services\TicketService
+    myticket.service:
+        alias: App\Services\TicketService
+
+    myautomation.service:
+        alias: App\Services\AutomationService

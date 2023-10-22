@@ -130,6 +130,10 @@
 							<!-- //Field -->
 						{% endif %}
 
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							{% set location = fetchdata_service.getUserLocation(app.user) %}
+						{% endif %}
+
 						<div class="row">
 							<div class="col-sm-4">
 								<!-- Field -->
@@ -137,11 +141,15 @@
 									<label class="uv-field-label required">{{ 'Region'|trans }}</label>
 									<div class="uv-field-block">
 										<select name="region" class="uv-select create-ticket division" id="region">
-											<option value="">{{ 'Select region'|trans }}</option>
+											{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+												<option value="{{ location.parent.parent.id }}" selected>{{ location.parent.parent.libelle }}</option>
+											{% else %}
+												<option value="">{{ 'Select region'|trans }}</option>
 
-											{% for region in fetchdata_service.getRegions() %}
-												<option value="{{ region.id }}" {{ post.region is defined and post.region == region.id ? 'selected' : '' }}>{{ region.libelle }}</option>
-											{% endfor %}
+												{% for region in fetchdata_service.getRegions() %}
+													<option value="{{ region.id }}" {{ post.region is defined and post.region == region.id ? 'selected' : '' }}>{{ region.name }}</option>
+												{% endfor %}
+											{% endif %}
 										</select>
 									</div>
 									<span class="uv-field-info">{{ 'Choose your region'|trans }}</span>
@@ -154,7 +162,11 @@
 									<label class="uv-field-label required">{{ 'Departement'|trans }}</label>
 									<div class="uv-field-block">
 										<select name="departement" class="uv-select create-ticket division" id="departement">
-											<option value="">{{ 'Select departement'|trans }}</option>
+											{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+												<option value="{{ location.parent.id }}" selected>{{ location.parent.libelle }}</option>
+											{% else %}
+												<option value="">{{ 'Select departement'|trans }}</option>
+											{% endif %}
 										</select>
 									</div>
 									<span class="uv-field-info">{{ 'Choose your departement'|trans }}</span>
@@ -167,7 +179,11 @@
 									<label class="uv-field-label required">{{ 'Commune'|trans }}</label>
 									<div class="uv-field-block">
 										<select name="commune" class="uv-select create-ticket" id="commune">
-											<option value="">{{ 'Select commune'|trans }}</option>
+											{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+												<option value="{{ location.id }}" selected>{{ location.libelle }}</option>
+											{% else %}
+												<option value="">{{ 'Select commune'|trans }}</option>
+											{% endif %}
 										</select>
 									</div>
 									<span class="uv-field-info">{{ 'Choose your commune'|trans }}</span>

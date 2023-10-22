@@ -12,12 +12,12 @@ twig:
         user_service: '@user.service'
         uvdesk_service: '@uvdesk.service'
         recaptcha_service: '@recaptcha.service'
-        ticket_service: '@ticket.service'
+        ticket_service: '@myticket.service'
         fetchdata_service: '@fetchdata.service'
         csrf_token_generator: '@security.csrf.token_manager'
         email_service: '@email.service'
         uvdesk_extensibles: '@uvdesk.extensibles'
         uvdesk_core_file_system: '@uvdesk.core.file_system.service'
-        uvdesk_automations: '@uvdesk.automations'
+        uvdesk_automations: '@myautomation.service'#'@uvdesk.automations'
         uvdesk_version: "%uvdesk.version%"
         uvdesk_core_version: "%uvdesk.core.version%"
