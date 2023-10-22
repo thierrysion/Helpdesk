@@ -4,8 +4,19 @@ swiftmailer:
         mibukyos:
             transport: gmail
             username: mibukyos@gmail.com
-            password: dGhpZXJyeXNpb24=
+            password: ZEdocFpYSnllWE5wYjI0PQ==
             # sender_address: ~
             # delivery_addresses: ~
+            disable_delivery: true
+        InnovSI_Channel:
+            transport: smtp
+            username: noreply@innovsi.org
+            password: aFE2QE0zNnQ3Q3ZZWVVG
+            host: mail.innovsi.org
+            port: 465
+            encryption: ssl
+            auth_mode: login
+            sender_address: 
+            delivery_addresses: ['']
             disable_delivery: false
 
