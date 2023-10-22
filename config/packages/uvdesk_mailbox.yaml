@@ -13,20 +13,20 @@ uvdesk_mailbox:
         #     disable_outbound_emails: false
         #     use_strict_mode: false
         
-        #     # Incoming email settings
-        #     # IMAP settings to use for fetching emails from mailbox
-        #     imap_server:
-        #         host: ~
-        #         username: ~
-        #         password: ~
+        # Incoming email settings
+        # IMAP settings to use for fetching emails from mailbox
+        #imap_server:
+        #    host: mail.innovsi.org
+        #    username: noreply@innovsi.org
+        #    password: hQ6@M36t7CvYYUF
 
-        #     # Outgoing email settings
-        #     # Mailer settings to use for sending emails from mailbox
-        #     smtp_server:
-        #         host: ~
-        #         port: ~
-        #         client: ~
-        #         type: ~
-        #         username: ~
-        #         password: ~
-        #         sender_address: ~
+        # Outgoing email settings
+        # Mailer settings to use for sending emails from mailbox
+        #smtp_server:
+        #    host: mail.innovsi.org
+        #    port: 465
+        #    client: ~
+        #    type: smtp
+        #    username: noreply@innovsi.org
+        #    password: hQ6@M36t7CvYYUF
+        #    sender_address: nguimbouseffa@yahoo.fr
