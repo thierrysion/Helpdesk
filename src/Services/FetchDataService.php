@@ -5,7 +5,8 @@ namespace App\Services;
 use App\Entity\StatusUser;
 use App\Entity\Location;
 use App\Entity\TypeLocation;
-use App\Entity\Programme;
+use App\Entity\Country;
+use App\Entity\Handicap;
 use App\Entity\UserInfos;
 //use Webkul\UVDesk\CoreFrameworkBundle\Entity\User;
 use Doctrine\ORM\Query;
@@ -51,17 +52,31 @@ class FetchDataService
         return $statusUsers = $qb->getQuery()->getArrayResult();
     }
 
-    public function getUserPrograms()
+    public function getHandicaps()
     {
-        static $userPrograms;
-        if (null !== $userPrograms)
-            return $userPrograms;
+        static $handicaps;
+        if (null !== $handicaps)
+            return $handicaps;
 
         $qb = $this->entityManager->createQueryBuilder();
-        $qb->select('p.id', 'p.libelle As libelle')->from(Programme::class, 'p')
-            ->orderBy('p.libelle', 'ASC');
+        $qb->select('h.id','h.libelle As libelle')->from(Handicap::class, 'h')
+                ->orderBy('h.libelle', 'ASC');
 
-        return $userPrograms = $qb->getQuery()->getArrayResult();
+        return $handicaps = $qb->getQuery()->getArrayResult();
+    }
+
+    public function getCountries()
+    {
+        static $countries;
+        if (null !== $countries)
+            return $countries;
+
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('c.id', 'c.libelle As libelle')->from(Country::class, 'c')
+            ->andWhere('c.active = :isActive')->setParameter('isActive', true)
+            ->orderBy('c.libelle', 'ASC');
+
+        return $countries = $qb->getQuery()->getArrayResult();
     }
 
     public function getRegions() {

@@ -238,6 +238,8 @@ class CoreTicketController extends AbstractController
             // Retrieve customer details from referral ticket
             $customer = $referralTicket->getCustomer();
             $customerPartialDetails = $customer->getCustomerInstance()->getPartialDetails();
+
+            $userInfos = $em->getRepository(UserInfos::class)->findOneBy(['user' => $customer]);
         } else if (null != $ticketProxy->getFrom() && null != $ticketProxy->getName()) {
             // Create customer if account does not exists
             $customer = $entityManager->getRepository(User::class)->findOneByEmail($ticketProxy->getFrom());
@@ -254,12 +256,6 @@ class CoreTicketController extends AbstractController
 
             // ici nous devons prendre les données de userinfos
             $userInfos = new UserInfos();
-            $userInfos->setSex($request->request->get('sex'));
-            $userInfos->setStatus($form['statusUser']->getData()); //$request->request->get('statusUser')
-            $userInfos->setTelephone($request->request->get('telephone'));
-            $userInfos->setFonction($request->request->get('fonction'));
-            $userInfos->setProgramme($form['userProgram']->getData()); //$request->request->get('userProgram')
-            $userInfos->setCommune($form['commune']->getData()); // $request->request->get('commune')
         }
 
         $ticketData = [
@@ -303,14 +299,33 @@ class CoreTicketController extends AbstractController
             // on met à jour la localisation du ticket et de l'utilisateur
             $ticketLocation->setLocation($form['commune']->getData()); // $request->request->get('commune')
 
+            $ticketLocation->setLocation($form['commune']->getData()); // $request->request->get('commune')
+            $ticketLocation->setSex($request->request->get('sex'));
+            $ticketLocation->setAge($form['age']->getData());
+            $ticketLocation->setStatus($form['statusUser']->getData()); //$request->request->get('statusUser')
+            $ticketLocation->setTelephone($request->request->get('telephone'));
+            $ticketLocation->setVillage($request->request->get('village'));
+            $ticketLocation->setQuartier($request->request->get('quartier'));
+            $ticketLocation->setNationalite($form['nationalite']->getData()); //$request->request->get('userProgram')
+            $ticketLocation->setHandicap($form['handicap']->getData());
+
+            $userInfos->setSex($request->request->get('sex'));
+            $userInfos->setAge($form['age']->getData());
+            $userInfos->setStatus($form['statusUser']->getData()); //$request->request->get('statusUser')
+            $userInfos->setTelephone($request->request->get('telephone'));
+            $userInfos->setVillage($request->request->get('village'));
+            $userInfos->setQuartier($request->request->get('quartier'));
+            $userInfos->setNationalite($form['nationalite']->getData()); //$request->request->get('userProgram')
+            $userInfos->setHandicap($form['handicap']->getData());
+            $userInfos->setCommune($form['commune']->getData()); // $request->request->get('commune')
+
             //persister les données
             $em = $this->getDoctrine()->getManager();
             if ('CustomerCreateTicket' !== $ticketValidationGroup || !empty($referralTicket)) {
                 //if($userInfos->getUser() == null) {
                 $userInfos->setUser($ticket->getCustomer());
-                $em->persist($userInfos);
             }
-
+            $em->persist($userInfos);
             $em->persist($ticketLocation);
             $em->flush();
             if($request->request->get('customFields') || $request->files->get('customFields')) {

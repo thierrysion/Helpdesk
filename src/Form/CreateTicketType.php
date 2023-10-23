@@ -3,7 +3,8 @@
 namespace App\Form;
 
 use App\Entity\StatusUser;
-use App\Entity\Programme;
+use App\Entity\Country;
+use App\Entity\Handicap;
 use App\Entity\Location;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
@@ -40,7 +41,6 @@ class CreateTicketType extends AbstractType
             ],
         ]);
 
-        // Customer Sex
         $builder->add('sex', ChoiceType::class, [
             'choices'  => [
                 'Homme' => 'H',
@@ -51,23 +51,34 @@ class CreateTicketType extends AbstractType
             'mapped' => false,
         ]);
 
-        // Customer Fonction
-        $builder->add('fonction', null, [
+        $builder->add('age', null, [
+                'required' => true,
+                'label' => 'Your Age',
+                'attr' => array('placeholder' => 'Entrer votre age'),
+                'mapped' => false,
+            ]);
+
+        $builder->add('village', null, [
             'required' => false,
-            'label' => 'Your Function',
-            'attr' => array('placeholder' => 'Enter Your Function'),
+            'label' => 'Your Village',
+            'attr' => array('placeholder' => 'Entrer votre Village'),
             'mapped' => false,
         ]);
 
-        // Customer Phone number
+        $builder->add('quartier', null, [
+            'required' => false,
+            'label' => 'Your Quartier',
+            'attr' => array('placeholder' => 'Entrer votre Quartier'),
+            'mapped' => false,
+        ]);
+
         $builder->add('telephone', null, [
             'required' => false,
             'label' => 'Your Phone number',
-            'attr' => array('placeholder' => 'Enter Your Phone number'),
+            'attr' => array('placeholder' => 'Entrer votre Numero de téléphone'),
             'mapped' => false,
         ]);
 
-        // Customer Status
         $builder->add('statusUser', EntityType::class, array(
             'class' => StatusUser::class,
             'choice_label' => 'status',
@@ -87,10 +98,9 @@ class CreateTicketType extends AbstractType
             'empty_data'  => null
         ));
 
-        // Customer's Program
-        $builder->add('userProgram', EntityType::class, array(
-            'class' => Programme::class,
-            'choice_label' => 'programme',
+        $builder->add('handicap', EntityType::class, array(
+            'class' => Handicap::class,
+            'choice_label' => 'handicap',
             'multiple' => false,
             'mapped' => false,
             'attr' => array(
@@ -99,12 +109,32 @@ class CreateTicketType extends AbstractType
                     'class' => 'selectpicker'
             ),
             'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('prog')
+                return $er->createQueryBuilder('h')
                             //->andwhere('status.isActive = :isActive')->setParameter('isActive', true)
-                            ->orderBy('prog.libelle', 'ASC');
+                            ->orderBy('h.libelle', 'ASC');
             },
-            'placeholder' => 'Choose the program the user is in',
-            'empty_data'  => null
+            'placeholder' => 'Handicap',
+            'empty_data'  => null,
+            'required' => false
+        ));
+
+        $builder->add('nationalite', EntityType::class, array(
+            'class' => Country::class,
+            'choice_label' => 'Nationalite',
+            'multiple' => false,
+            'mapped' => false,
+            'attr' => array(
+                    'data-role' => 'tagsinput',
+                    'data-live-search' => true,
+                    'class' => 'selectpicker'
+            ),
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('c')
+                            ->andwhere('c.active = :isActive')->setParameter('isActive', true)
+                            ->orderBy('c.libelle', 'ASC');
+            },
+            'placeholder' => 'Choisir votre nationalite',
+            //'empty_data'  => null
         ));
 
         $builder->add('region', EntityType::class, array(

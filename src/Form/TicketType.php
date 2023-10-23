@@ -2,7 +2,8 @@
 namespace App\Form;
 
 use App\Entity\StatusUser;
-use App\Entity\Programme;
+use App\Entity\Country;
+use App\Entity\Handicap;
 use App\Entity\Location;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -49,7 +50,7 @@ class TicketType extends AbstractType
             $builder->add('name', null, [
                 'required' => true,
                 'label' => 'Your Name',
-                'attr' => array('placeholder' => 'Enter Your Name'),
+                'attr' => array('placeholder' => 'Entrer Votre Nom'),
                 'mapped' => false,
             ]);
 
@@ -57,71 +58,105 @@ class TicketType extends AbstractType
                 'required' => true,
                 'label' => 'Your Email',
                 'mapped' => false,
-                'attr' => array('placeholder' => 'Enter Your Email'),
-            ));
-
-            $builder->add('sex', ChoiceType::class, [
-                'choices'  => [
-                    'Homme' => 'H',
-                    'Femme' => 'F',
-                ],
-                'required' => true,
-                'label' => 'Your Gender',
-                'mapped' => false,
-            ]);
-
-            $builder->add('fonction', null, [
-                'required' => false,
-                'label' => 'Your Function',
-                'attr' => array('placeholder' => 'Enter Your Function'),
-                'mapped' => false,
-            ]);
-
-            $builder->add('telephone', null, [
-                'required' => false,
-                'label' => 'Your Phone number',
-                'attr' => array('placeholder' => 'Enter Your Phone number'),
-                'mapped' => false,
-            ]);
-
-            $builder->add('statusUser', EntityType::class, array(
-                'class' => StatusUser::class,
-                'choice_label' => 'status',
-                'multiple' => false,
-                'mapped' => false,
-                'attr' => array(
-                        'data-role' => 'tagsinput',
-                        'data-live-search' => true,
-                        'class' => 'selectpicker'
-                ),
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('status')
-                                //->andwhere('status.isActive = :isActive')->setParameter('isActive', true)
-                                ->orderBy('status.libelle', 'ASC');
-                },
-                'placeholder' => 'Choose user status',
-                'empty_data'  => null
-            ));
-
-            $builder->add('userProgram', EntityType::class, array(
-                'class' => Programme::class,
-                'choice_label' => 'programme',
-                'multiple' => false,
-                'mapped' => false,
-                'attr' => array(
-                        'data-role' => 'tagsinput',
-                        'data-live-search' => true,
-                        'class' => 'selectpicker'
-                ),
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('prog')
-                                //->andwhere('status.isActive = :isActive')->setParameter('isActive', true)
-                                ->orderBy('prog.libelle', 'ASC');
-                },
-                'placeholder' => 'Choose the program the user is in',
-                'empty_data'  => null
+                'attr' => array('placeholder' => 'Entrer Votre Email'),
             ));
         }
+
+        $builder->add('sex', ChoiceType::class, [
+            'choices'  => [
+                'Homme' => 'H',
+                'Femme' => 'F',
+            ],
+            'required' => true,
+            'label' => 'Your Gender',
+            'mapped' => false,
+        ]);
+
+        $builder->add('age', null, [
+                'required' => true,
+                'label' => 'Your Age',
+                'attr' => array('placeholder' => 'Entrer votre age'),
+                'mapped' => false,
+            ]);
+
+        $builder->add('village', null, [
+            'required' => false,
+            'label' => 'Your Village',
+            'attr' => array('placeholder' => 'Entrer votre Village'),
+            'mapped' => false,
+        ]);
+
+        $builder->add('quartier', null, [
+            'required' => false,
+            'label' => 'Your Quartier',
+            'attr' => array('placeholder' => 'Entrer votre Quartier'),
+            'mapped' => false,
+        ]);
+
+        $builder->add('telephone', null, [
+            'required' => false,
+            'label' => 'Your Phone number',
+            'attr' => array('placeholder' => 'Entrer votre Numero de téléphone'),
+            'mapped' => false,
+        ]);
+
+        $builder->add('statusUser', EntityType::class, array(
+            'class' => StatusUser::class,
+            'choice_label' => 'status',
+            'multiple' => false,
+            'mapped' => false,
+            'attr' => array(
+                    'data-role' => 'tagsinput',
+                    'data-live-search' => true,
+                    'class' => 'selectpicker'
+            ),
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('status')
+                            //->andwhere('status.isActive = :isActive')->setParameter('isActive', true)
+                            ->orderBy('status.libelle', 'ASC');
+            },
+            'placeholder' => 'Choose user status',
+            'empty_data'  => null
+        ));
+
+        $builder->add('handicap', EntityType::class, array(
+            'class' => Handicap::class,
+            'choice_label' => 'handicap',
+            'multiple' => false,
+            'mapped' => false,
+            'attr' => array(
+                    'data-role' => 'tagsinput',
+                    'data-live-search' => true,
+                    'class' => 'selectpicker'
+            ),
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('h')
+                            //->andwhere('status.isActive = :isActive')->setParameter('isActive', true)
+                            ->orderBy('h.libelle', 'ASC');
+            },
+            'placeholder' => 'Handicap',
+            'empty_data'  => null,
+            'required' => false
+        ));
+
+        $builder->add('nationalite', EntityType::class, array(
+            'class' => Country::class,
+            'choice_label' => 'Nationalite',
+            'multiple' => false,
+            'mapped' => false,
+            'attr' => array(
+                    'data-role' => 'tagsinput',
+                    'data-live-search' => true,
+                    'class' => 'selectpicker'
+            ),
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('c')
+                            ->andwhere('c.active = :isActive')->setParameter('isActive', true)
+                            ->orderBy('c.libelle', 'ASC');
+            },
+            'placeholder' => 'Choisir votre nationalite',
+            //'empty_data'  => null
+        ));
 
         $builder->add('region', EntityType::class, array(
             'class' => Location::class,

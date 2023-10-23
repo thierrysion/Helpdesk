@@ -24,9 +24,9 @@ class UserInfos
     private $sex;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private $fonction;
+    private $age;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -34,9 +34,9 @@ class UserInfos
     private $telephone;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Programme::class)
+     * @ORM\ManyToOne(targetEntity=Country::class)
      */
-    private $programme;
+    private $nationalite;
 
     /**
      * @ORM\ManyToOne(targetEntity=StatusUser::class)
@@ -44,10 +44,25 @@ class UserInfos
     private $status;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Handicap::class)
+     */
+    private $handicap;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Location::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $commune;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $village;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $quartier;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
@@ -72,14 +87,38 @@ class UserInfos
         return $this;
     }
 
-    public function getFonction(): ?string
+    public function getAge(): ?string
     {
-        return $this->fonction;
+        return $this->age;
     }
 
-    public function setFonction(?string $fonction): self
+    public function setAge(string $age): self
     {
-        $this->fonction = $fonction;
+        $this->age = $age;
+
+        return $this;
+    }
+
+    public function getVillage(): ?string
+    {
+        return $this->village;
+    }
+
+    public function setVillage(?string $village): self
+    {
+        $this->village = $village;
+
+        return $this;
+    }
+
+    public function getQuartier(): ?string
+    {
+        return $this->quartier;
+    }
+
+    public function setQuartier(?string $quartier): self
+    {
+        $this->quartier = $quartier;
 
         return $this;
     }
@@ -96,14 +135,26 @@ class UserInfos
         return $this;
     }
 
-    public function getProgramme(): ?Programme
+    public function getNationalite(): ?Country
     {
-        return $this->programme;
+        return $this->nationalite;
     }
 
-    public function setProgramme(?Programme $programme): self
+    public function setNationalite(?Country $nationalite): self
     {
-        $this->programme = $programme;
+        $this->nationalite = $nationalite;
+
+        return $this;
+    }
+
+    public function getHandicap(): ?Handicap
+    {
+        return $this->handicap;
+    }
+
+    public function setHandicap(?Handicap $handicap): self
+    {
+        $this->handicap = $handicap;
 
         return $this;
     }

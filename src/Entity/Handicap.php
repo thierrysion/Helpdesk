@@ -2,16 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\ProgrammeRepository;
+use App\Repository\HandicapRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ProgrammeRepository::class)
+ * @ORM\Entity(repositoryClass=HandicapRepository::class)
  * @UniqueEntity("libelle")
  */
-class Programme
+class Handicap
 {
     /**
      * @ORM\Id
@@ -21,14 +21,9 @@ class Programme
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=30, unique=true)
      */
     private $libelle;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $active;
 
     public function getId(): ?int
     {
@@ -43,18 +38,6 @@ class Programme
     public function setLibelle(string $libelle): self
     {
         $this->libelle = $libelle;
-
-        return $this;
-    }
-
-    public function isActive(): ?bool
-    {
-        return $this->active;
-    }
-
-    public function setActive(bool $active): self
-    {
-        $this->active = $active;
 
         return $this;
     }

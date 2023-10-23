@@ -194,12 +194,6 @@ class TicketController extends AbstractController
                             $data['customer'] = $this->userService->createUserInstance($customerEmail, $data['fullname'], $supportRole, $extras = ["active" => true]);
                             // ici nous devons prendre les données de userinfos
                             $userInfos = new UserInfos();
-                            $userInfos->setSex($request->request->get('sex'));
-                            $userInfos->setStatus($form['statusUser']->getData()); //$request->request->get('statusUser')
-                            $userInfos->setTelephone($request->request->get('telephone'));
-                            $userInfos->setFonction($request->request->get('fonction'));
-                            $userInfos->setProgramme($form['userProgram']->getData()); //$request->request->get('userProgram')
-                            $userInfos->setCommune($form['commune']->getData()); // $request->request->get('commune')
                         } else {
                             $userDetail = $em->getRepository(CoreEntites\User::class)->find($data['customer']->getId());
                             $data['email'] = $customerEmail = $data['customer']->getEmail();
@@ -234,14 +228,32 @@ class TicketController extends AbstractController
                             $ticketLocation->setTicket($ticket);
                             // on met à jour la localisation du ticket et de l'utilisateur
                             $ticketLocation->setLocation($form['commune']->getData()); // $request->request->get('commune')
+                            $ticketLocation->setSex($request->request->get('sex'));
+                            $ticketLocation->setAge($form['age']->getData());
+                            $ticketLocation->setStatus($form['statusUser']->getData()); //$request->request->get('statusUser')
+                            $ticketLocation->setTelephone($request->request->get('telephone'));
+                            $ticketLocation->setVillage($request->request->get('village'));
+                            $ticketLocation->setQuartier($request->request->get('quartier'));
+                            $ticketLocation->setNationalite($form['nationalite']->getData()); //$request->request->get('userProgram')
+                            $ticketLocation->setHandicap($form['handicap']->getData());
 
-                            if(!is_object($data['customer'] = $this->container->get('security.token_storage')->getToken()->getUser()) == "anon.") {
+                            $userInfos->setSex($request->request->get('sex'));
+                            $userInfos->setAge($form['age']->getData());
+                            $userInfos->setStatus($form['statusUser']->getData()); //$request->request->get('statusUser')
+                            $userInfos->setTelephone($request->request->get('telephone'));
+                            $userInfos->setVillage($request->request->get('village'));
+                            $userInfos->setQuartier($request->request->get('quartier'));
+                            $userInfos->setNationalite($form['nationalite']->getData()); //$request->request->get('userProgram')
+                            $userInfos->setHandicap($form['handicap']->getData());
+                            $userInfos->setCommune($form['commune']->getData()); // $request->request->get('commune')
+
+                            if(!is_object($data['customer'] = $this->container->get('security.token_storage')->getToken()->getUser()) == "anon." && $userInfos->getUser() == null) {
                                 //if($userInfos->getUser() == null) {
                                 $userInfos->setUser($ticket->getCustomer());
-                                $em->persist($userInfos);
                             }
                             //persister les données
                             //$em = $this->getDoctrine()->getManager();
+                            $em->persist($userInfos);
                             $em->persist($ticketLocation);
 
                             $em->flush();

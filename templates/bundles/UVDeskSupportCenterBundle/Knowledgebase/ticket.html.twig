@@ -104,7 +104,8 @@
 								<span class="uv-field-info"></span>
 							</div>
 							<!-- //Field -->
-						</div>	
+						</div>
+						{% endif %}
 						<div class="row">
 							<!-- Field -->
 							<div class="uv-element-block">
@@ -122,14 +123,14 @@
 
 							<!-- Field -->
 							<div class="uv-element-block">
-								<label class="uv-field-label required">{{ 'Fonction'|trans }}</label>
+								<label class="uv-field-label required">{{ 'Age'|trans }}</label>
 								<div class="uv-field-block">
-									<input name="fonction" class="uv-field create-ticket" type="text" placeholder="{{ 'Enter your function'|trans }}" value="{{ post.fonction is defined ? post.fonction : '' }}">
+									<input name="age" class="uv-field create-ticket" type="number" placeholder="{{ 'Enter your age'|trans }}" value="{{ post.age is defined ? post.age : '' }}">
 								</div>
 								<span class="uv-field-info"></span>
 							</div>
 							<!-- //Field -->
-						</div>	
+						</div>
 						<div class="row">
 							<!-- Field -->
 							<div class="uv-element-block">
@@ -143,13 +144,12 @@
 
 							<!-- Field -->
 							<div class="uv-element-block">
-								<label class="uv-field-label required">{{ 'Programme'|trans }}</label>
+								<label class="uv-field-label required">{{ 'Nationalite'|trans }}</label>
 								<div class="uv-field-block">
-									<select name="userProgram" class="uv-field create-ticket">
-										<option value="">{{ 'Select User Program'|trans }}</option>
-
-										{% for userProgram in fetchdata_service.getuserPrograms() %}
-											<option value="{{ userProgram.id }}" {{ post.userProgram is defined and post.userProgram == userProgram.id ? 'selected' : '' }}>{{ userProgram.libelle }}</option>
+									<select name="nationalite" class="uv-field create-ticket">
+										<option value="">{{ 'Select User Nationality'|trans }}</option>
+										{% for country in fetchdata_service.getCountries() %}
+											<option value="{{ country.id }}" {{ post.country is defined and post.country == country.id ? 'selected' : '' }}>{{ country.libelle }}</option>
 										{% endfor %}
 									</select>
 								</div>
@@ -157,10 +157,6 @@
 							</div>
 							<!-- //Field -->
 						</div>
-						{% endif %}	
-						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-							{% set location = fetchdata_service.getUserLocation(app.user) %}
-						{% endif %}
 						<div class="row">
 							<!-- Field -->
 							<div class="uv-element-block">
@@ -179,54 +175,81 @@
 							<!-- //Field -->
 							<!-- Field -->
 							<div class="uv-element-block">
-								<label class="uv-field-label required">{{ 'Region'|trans }}</label>
+								<label class="uv-field-label">{{ 'Handicap'|trans }}</label>
 								<div class="uv-field-block">
-									<select name="region" class="uv-select create-ticket division" id="region">										
-										{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-											<option value="{{ location.parent.parent.id }}" selected>{{ location.parent.parent.libelle }}</option>
-										{% else %}
-											<option value="">{{ 'Choose your region'|trans }}</option>
-											{% for region in fetchdata_service.getRegions() %}
-												<option value="{{ region.id }}" {{ post.region is defined and post.region == region.id ? 'selected' : '' }}>{{ region.name }}</option>
-											{% endfor %}
-										{% endif %}
+									<select name="handicap" class="uv-select create-ticket division">										
+										<option value="">{{ 'Choose A Handicap if any'|trans }}</option>
+										{% for handicap in fetchdata_service.getHandicaps() %}
+											<option value="{{ handicap.id }}" {{ post.handicap is defined and post.handicap == handicap.id ? 'selected' : '' }}>{{ handicap.libelle }}</option>
+										{% endfor %}
 									</select>
 								</div>
 								<span class="uv-field-info"></span>
 							</div>
 							<!-- //Field -->
 						</div>
-						<div class="row">							
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							{% set location = fetchdata_service.getUserLocation(app.user) %}
+						{% endif %}
+						<div class="row">
 							<!-- Field -->
 							<div class="uv-element-block">
-								<label class="uv-field-label required">{{ 'Departement'|trans }}</label>
+								<label class="uv-field-label required">{{ 'Region'|trans }}</label>
 								<div class="uv-field-block">
-									<select name="departement" class="uv-select create-ticket division" id="departement">										
-										{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-											<option value="{{ location.parent.id }}" selected>{{ location.parent.libelle }}</option>
-										{% else %}
-											<option value="">{{ 'Choose your departement'|trans }}</option>
-										{% endif %}
-								</select>
+									<select name="region" class="uv-select create-ticket division" id="region">										
+										<option value="">{{ 'Choose your region'|trans }}</option>
+										{% for region in fetchdata_service.getRegions() %}
+											<option value="{{ region.id }}" {{ post.region is defined and post.region == region.id ? 'selected' : '' }}>{{ region.name }}</option>
+										{% endfor %}
+									</select>
 								</div>
 								<span class="uv-field-info"></span>
 							</div>
 							<!-- //Field -->
 							<!-- Field -->
 							<div class="uv-element-block">
-								<label class="uv-field-label required">{{ 'District'|trans }}</label>
+								<label class="uv-field-label required">{{ 'Departement'|trans }}</label>
 								<div class="uv-field-block">
-									<select name="commune" class="uv-select create-ticket" id="commune">										
-										{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-											<option value="{{ location.id }}" selected>{{ location.libelle }}</option>
-										{% else %}
-											<option value="">{{ 'Choose your district'|trans }}</option>
-										{% endif %}
+									<select name="departement" class="uv-select create-ticket division" id="departement">										
+										<option value="">{{ 'Choose your departement'|trans }}</option>
 									</select>
 								</div>
 								<span class="uv-field-info"></span>
 							</div>
-							<!-- //Field -->							
+							<!-- //Field -->
+						</div>
+						<div class="row">
+							<!-- Field -->
+							<div class="uv-element-block">
+								<label class="uv-field-label required">{{ 'District'|trans }}</label>
+								<div class="uv-field-block">
+									<select name="commune" class="uv-select create-ticket" id="commune">										
+										<option value="">{{ 'Choose your district'|trans }}</option>
+									</select>
+								</div>
+								<span class="uv-field-info"></span>
+							</div>
+							<!-- //Field -->
+							<!-- Field -->
+							<div class="uv-element-block">
+								<label class="uv-field-label">{{ 'Village'|trans }}</label>
+								<div class="uv-field-block">
+									<input name="village" class="uv-field create-ticket" type="text" placeholder="{{ 'Enter your village'|trans }}" value="{{ post.telephone is defined ? post.telephone : '' }}">
+								</div>
+								<span class="uv-field-info"></span>
+							</div>
+							<!-- //Field -->
+						</div>
+						<div class="row">
+							<!-- Field -->
+							<div class="uv-element-block">
+								<label class="uv-field-label">{{ 'Quartier'|trans }}</label>
+								<div class="uv-field-block">
+									<input name="quartier" class="uv-field create-ticket" type="text" placeholder="{{ 'Enter your quarter'|trans }}" value="{{ post.telephone is defined ? post.telephone : '' }}">
+								</div>
+								<span class="uv-field-info"></span>
+							</div>
+							<!-- //Field -->
 						</div>
 						<div class="row">
 							<!-- Field -->
