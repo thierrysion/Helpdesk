@@ -250,8 +250,6 @@
 								<span class="uv-field-info"></span>
 							</div>
 							<!-- //Field -->
-						</div>
-						<div class="row">
 							<!-- Field -->
 							<div class="uv-element-block">
 								<label class="uv-field-label required">{{ 'Type'|trans }}</label>
@@ -267,6 +265,8 @@
 								<span class="uv-field-info"></span>
 							</div>
 							<!-- //Field -->
+						</div>
+						<div class="row">
 							<!-- Field -->
 							<div class="uv-element-block">
 								<label class="uv-field-label required">{{ 'Subject'|trans }}</label>
@@ -274,6 +274,13 @@
 									<input name="subject" class="uv-field create-ticket" type="text" placeholder="{{ 'Ticket subject'|trans }}" value="{{ post.subject is defined ? post.subject : '' }}">
 								</div>
 								<span class="uv-field-info"></span>
+							</div>
+							<!-- //Field -->
+							<!-- Field -->
+							<div class="uv-element-block attachment-block uv-no-error-success-icon" id="uv-attachment-option">
+								<label>
+									<span class="uv-file-label">{{ 'Add Attachment'|trans }}</span>
+								</label>
 							</div>
 							<!-- //Field -->
 						</div>
@@ -288,13 +295,6 @@
 							</div>
 							<!-- //Field -->
 						</div>
-						<!-- Field -->
-						<div class="uv-element-block attachment-block uv-no-error-success-icon" id="uv-attachment-option">
-							<label>
-								<span class="uv-file-label">{{ 'Add Attachment'|trans }}</span>
-							</label>
-						</div>
-						<!-- //Field -->
 						{% if recaptchaDetail and recaptchaDetail.isActive == true %}
 							<div class="clearfix"></div>
 							<div class="g-recaptcha" data-sitekey="{{ recaptchaDetail.siteKey }}"></div>

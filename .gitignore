@@ -20,3 +20,6 @@
 ###< phpunit/phpunit ###
 
 /.vs
+
+### Remove composer.lock to preserve platforms specifities ###
+/composer.lock

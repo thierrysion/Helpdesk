@@ -1,6 +1,6 @@
 "Signed in as": "Connecté en tant que"
 "Your Profile": "Votre profil"
-"Create Ticket": "Créer un ticket"
+"Create Ticket": "Soumettre votre plainte"
 "Create Agent": "Créer un agent"
 "Create Customer": "Créer un plaignant"
 "Sign Out": "Déconnexion"
@@ -1420,6 +1420,11 @@
 "Select Plaignant status": "Sélectionnez le statut/nationalité"
 "Resuc": "Retour à Resuc"
 "Plaignant status": "Statut du plaignant"
+"Enter your village": "Saisir le nom du village"
+"Enter your age": "Saisir votre âge (Ex: 20)"
+"Enter your quarter": "Saisir le nom de votre quartier"
+"Select User Nationality": "Sélectionnez votre pays d\u0027origine"
+"Choose A Handicap if any": "Sélectionnez un handicap si applicable"
 
 #forgotpassword
 "Forgot Password": "Mot de passe oublié"
