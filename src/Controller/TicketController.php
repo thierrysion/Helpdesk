@@ -193,7 +193,11 @@ class TicketController extends AbstractController
                             $data['role'] = 4;
                             $data['customer'] = $this->userService->createUserInstance($customerEmail, $data['fullname'], $supportRole, $extras = ["active" => true]);
                             // ici nous devons prendre les données de userinfos
-                            $userInfos = new UserInfos();
+                            if($params['flag']) {
+                                $userInfos = new UserInfos();
+                            } else {
+                                $userInfos = $em->getRepository(UserInfos::class)->findOneBy(['user' => $customer]);
+                            }
                         } else {
                             $userDetail = $em->getRepository(CoreEntites\User::class)->find($data['customer']->getId());
                             $data['email'] = $customerEmail = $data['customer']->getEmail();
