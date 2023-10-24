@@ -376,6 +376,19 @@ class CoreAccountController extends AbstractController
                         }
                     }
 
+                    $userInfos = $em->getRepository(UserInfos::class)->findOneBy(['user' => $agentId]);
+                    $userInfos->setSex($request->request->get('sex'));
+                    $userInfos->setAge($request->request->get('age')); //$request->request->get('statusUser')
+                    $userInfos->setTelephone($request->request->get('user_form[contactNumber]'));
+                    //$userInfos->setFonction($request->request->get('fonction'));
+                    //$userInfos->setProgramme($form['userProgram']->getData()); //$request->request->get('userProgram')
+                    $zonederesponsabilite = $entityManager->getRepository(Location::class)->find($request->request->get('location'));
+                    $userInfos->setCommune($zonederesponsabilite); // $request->request->get('commune')
+                    $userInfos->setUser($user);
+                    //persister les données
+                    $entityManager->persist($userInfos);
+                    $entityManager->flush();
+
                     $userInstance->setUser($user);
                     $user->addUserInstance($userInstance);
                     $em->persist($user);

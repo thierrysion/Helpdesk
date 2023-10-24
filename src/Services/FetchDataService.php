@@ -107,6 +107,17 @@ class FetchDataService
         return $qb->getQuery()->getArrayResult();
     }
 
+    public function getUserInfos($user) {
+
+		$qb = $this->entityManager->createQueryBuilder();
+        $qb->select('ui')->from(UserInfos::class, 'ui')
+            ->addSelect('c')
+            ->innerJoin('ui.commune', 'c')
+            ->andWhere('ui.user = :user')
+            ->setParameter('user', $user);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     public function getTypeLocations() {
 
 		$qb = $this->entityManager->createQueryBuilder();
