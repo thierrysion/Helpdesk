@@ -281,7 +281,7 @@ class TicketController extends AbstractController
                         }
 
                     } else {
-                        $errors = $this->getFormErrors($form);
+                        //$errors = $this->getFormErrors($form);
                         $errors = array_merge($errors, $formErrors);
                     }
                 } else {

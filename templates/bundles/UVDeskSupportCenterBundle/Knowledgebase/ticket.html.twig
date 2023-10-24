@@ -166,7 +166,7 @@
 										<option value="">{{ 'Select Plaignant status'|trans }}</option>
 
 										{% for statusUser in fetchdata_service.getStatusUsers() %}
-											<option value="{{ statusUser.id }}" {{ post.statusUser is defined and post.statusUSer == statusUser.id ? 'selected' : '' }}>{{ statusUser.libelle }}</option>
+											<option value="{{ statusUser.id }}" {{ post.statusUser is defined and post.statusUser == statusUser.id ? 'selected' : '' }}>{{ statusUser.libelle }}</option>
 										{% endfor %}
 									</select>
 								</div>
