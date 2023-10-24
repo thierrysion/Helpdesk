@@ -27,7 +27,7 @@ class Country
     private $libelle;
 
     /**
-     * @ORM\Column(type="string", length=3, unique=true)
+     * @ORM\Column(type="string", length=64, unique=true)
      */
     private $code;
 

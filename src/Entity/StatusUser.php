@@ -21,7 +21,7 @@ class StatusUser
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=15, unique=true)
+     * @ORM\Column(type="string", length=64, unique=true)
      */
     private $libelle;
 

@@ -464,7 +464,7 @@ class CoreAccountController extends AbstractController
 
                     $userInfos = new UserInfos();
                     $userInfos->setSex($request->request->get('sex'));
-                    //$userInfos->setStatus($form['statusUser']->getData()); //$request->request->get('statusUser')
+                    $userInfos->setAge($request->request->get('age')); //$request->request->get('statusUser')
                     $userInfos->setTelephone($request->request->get('user_form[contactNumber]'));
                     //$userInfos->setFonction($request->request->get('fonction'));
                     //$userInfos->setProgramme($form['userProgram']->getData()); //$request->request->get('userProgram')

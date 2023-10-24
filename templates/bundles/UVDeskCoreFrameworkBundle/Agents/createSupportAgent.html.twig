@@ -110,7 +110,7 @@
                     <div class="uv-element-block">
 						<label class="uv-field-label required">{{ 'Gender'|trans }}</label>
 						<div class="uv-field-block">
-							<select name="sex" class="uv-field create-ticket">
+							<select name="sex" class="uv-field create-ticket"  required>
 								<option value="H" {% if post.sex is defined  and post.sex == "H" %}selected{% endif %}>{{ "Homme"|trans }}</option>
 								<option value="F" {% if post.sex is defined  and post.sex == "H" %}selected{% endif %}>{{ "Femme"|trans }}</option>
 							</select>
@@ -118,10 +118,20 @@
 						<span class="uv-field-info">{{ 'Enter your gender'|trans }}</span>
 					</div>
 
+                    <div class="uv-element-block">
+						<label class="uv-field-label required">{{ 'Age'|trans }}</label>
+						<div class="uv-field-block">
+							<div class="uv-field-block">
+                            <input name="age" required class="uv-field" type="number" value="">
+                        </div>
+						</div>
+						<span class="uv-field-info">{{ 'Enter your gender'|trans }}</span>
+					</div>
+
 					<div class="uv-element-block">
 						<label class="uv-field-label required">{{ 'Sphere de responsabilite'|trans }}</label>
 						<div class="uv-field-block">
-							<select name="sphere-de-responsabilite" class="uv-select create-ticket division" id="sphere-de-responsabilite">
+							<select name="sphere-de-responsabilite" class="uv-select create-ticket division"  required id="sphere-de-responsabilite">
 								<option value="">{{ 'Select Sphere de responsabilite'|trans }}</option>
 
 								{% for typeLocation in fetchdata_service.getTypeLocations() %}
